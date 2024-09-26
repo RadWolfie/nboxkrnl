@@ -25,29 +25,29 @@ enum EXCEPTION_DISPOSITION {
 };
 
 struct EXCEPTION_REGISTRATION_RECORD {
-	struct EXCEPTION_REGISTRATION_RECORD* Prev;
+	struct EXCEPTION_REGISTRATION_RECORD *Prev;
 	PVOID                                 Handler;
 };
-using PEXCEPTION_REGISTRATION_RECORD = EXCEPTION_REGISTRATION_RECORD*;
+using PEXCEPTION_REGISTRATION_RECORD = EXCEPTION_REGISTRATION_RECORD *;
 
 struct EXCEPTION_RECORD {
 	NTSTATUS                 ExceptionCode;
 	ULONG                    ExceptionFlags;
-	struct EXCEPTION_RECORD* ExceptionRecord;
+	struct EXCEPTION_RECORD *ExceptionRecord;
 	PVOID                    ExceptionAddress;
 	ULONG                    NumberParameters;
 	ULONG_PTR                ExceptionInformation[EXCEPTION_MAXIMUM_PARAMETERS];
 };
-using PEXCEPTION_RECORD = EXCEPTION_RECORD*;
+using PEXCEPTION_RECORD = EXCEPTION_RECORD *;
 
 struct ScopeTableEntry {
 	DWORD EnclosingLevel;
-	VOID* FilterFunction;
-	VOID* HandlerFunction;
+	VOID *FilterFunction;
+	VOID *HandlerFunction;
 };
 
 struct EXCEPTION_REGISTRATION_SEH : EXCEPTION_REGISTRATION_RECORD {
-	ScopeTableEntry* ScopeTable;
+	ScopeTableEntry *ScopeTable;
 	DWORD            TryLevel;
 	DWORD            _ebp;
 };
@@ -56,9 +56,9 @@ struct EXCEPTION_POINTERS {
 	PEXCEPTION_RECORD ExceptionRecord;
 	PCONTEXT          ContextRecord;
 };
-using PEXCEPTION_POINTERS = EXCEPTION_POINTERS*;
+using PEXCEPTION_POINTERS = EXCEPTION_POINTERS *;
 
-using PEXCEPTION_ROUTINE = EXCEPTION_DISPOSITION(CDECL*)(EXCEPTION_RECORD*, EXCEPTION_REGISTRATION_RECORD*, CONTEXT*, EXCEPTION_REGISTRATION_RECORD**);
+using PEXCEPTION_ROUTINE = EXCEPTION_DISPOSITION(CDECL *)(EXCEPTION_RECORD *, EXCEPTION_REGISTRATION_RECORD *, CONTEXT *, EXCEPTION_REGISTRATION_RECORD **);
 
 VOID __SEH_prolog();
 VOID __SEH_epilog();

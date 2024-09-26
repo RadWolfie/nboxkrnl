@@ -25,12 +25,12 @@
 	__asm sub  esp, 24;                                \
 	__asm mov  ebp, esp;                               \
 	__asm cld;                                         \
-	__asm mov ebx, [ebp]KTRAP_FRAME.Ebp;              \
-	__asm mov edi, [ebp]KTRAP_FRAME.Eip;              \
-	__asm mov [ebp]KTRAP_FRAME.DbgArgPointer, 0;       \
-	__asm mov [ebp]KTRAP_FRAME.DbgArgMark, 0xDEADBEEF; \
-	__asm mov [ebp]KTRAP_FRAME.DbgEip, edi;            \
-	__asm mov [ebp]KTRAP_FRAME.DbgEbp, ebx;
+	__asm mov ebx, [ebp] KTRAP_FRAME.Ebp;              \
+	__asm mov edi, [ebp] KTRAP_FRAME.Eip;              \
+	__asm mov[ebp] KTRAP_FRAME.DbgArgPointer, 0;       \
+	__asm mov[ebp] KTRAP_FRAME.DbgArgMark, 0xDEADBEEF; \
+	__asm mov[ebp] KTRAP_FRAME.DbgEip, edi;            \
+	__asm mov[ebp] KTRAP_FRAME.DbgEbp, ebx;
 
 #define CREATE_KTRAP_FRAME_WITH_CODE \
 	__asm mov word ptr[esp + 2], 0;  \

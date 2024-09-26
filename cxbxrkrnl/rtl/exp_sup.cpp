@@ -5,10 +5,10 @@
 #include "exp_sup.hpp"
 
 
-static EXCEPTION_DISPOSITION CDECL RtlpNestedExceptionHandler(EXCEPTION_RECORD*               pExceptionRecord,
-                                                              EXCEPTION_REGISTRATION_SEH*     pRegistrationFrame,
-                                                              CONTEXT*                        pContextRecord,
-                                                              EXCEPTION_REGISTRATION_RECORD** pDispatcherContext)
+static EXCEPTION_DISPOSITION CDECL RtlpNestedExceptionHandler(EXCEPTION_RECORD               *pExceptionRecord,
+                                                              EXCEPTION_REGISTRATION_SEH     *pRegistrationFrame,
+                                                              CONTEXT                        *pContextRecord,
+                                                              EXCEPTION_REGISTRATION_RECORD **pDispatcherContext)
 {
 	if (pExceptionRecord->ExceptionFlags & (EXCEPTION_UNWINDING | EXCEPTION_EXIT_UNWIND)) {
 		return ExceptionContinueSearch;
@@ -18,10 +18,10 @@ static EXCEPTION_DISPOSITION CDECL RtlpNestedExceptionHandler(EXCEPTION_RECORD* 
 	return ExceptionNestedException;
 }
 
-static EXCEPTION_DISPOSITION CDECL RtlpNestedUnwindHandler(EXCEPTION_RECORD*               pExceptionRecord,
-                                                           EXCEPTION_REGISTRATION_SEH*     pRegistrationFrame,
-                                                           CONTEXT*                        pContextRecord,
-                                                           EXCEPTION_REGISTRATION_RECORD** pDispatcherContext)
+static EXCEPTION_DISPOSITION CDECL RtlpNestedUnwindHandler(EXCEPTION_RECORD               *pExceptionRecord,
+                                                           EXCEPTION_REGISTRATION_SEH     *pRegistrationFrame,
+                                                           CONTEXT                        *pContextRecord,
+                                                           EXCEPTION_REGISTRATION_RECORD **pDispatcherContext)
 {
 	if (!(pExceptionRecord->ExceptionFlags & (EXCEPTION_UNWINDING | EXCEPTION_EXIT_UNWIND))) {
 		return ExceptionContinueSearch;
@@ -35,7 +35,7 @@ template <bool IsUnwind>
 static EXCEPTION_DISPOSITION RtlpExecuteHandler(PEXCEPTION_RECORD               ExceptionRecord,
                                                 PEXCEPTION_REGISTRATION_RECORD  RegistrationFrame,
                                                 PCONTEXT                        ContextRecord,
-                                                EXCEPTION_REGISTRATION_RECORD** pDispatcherContext,
+                                                EXCEPTION_REGISTRATION_RECORD **pDispatcherContext,
                                                 PEXCEPTION_ROUTINE              ExceptionRoutine)
 {
 	// ExceptionRoutine is either _except_handler3, _nested_unwind_handler, RtlpNestedExceptionHandler or RtlpNestedUnwindHandler
@@ -66,7 +66,7 @@ BOOLEAN RtlDispatchException(PEXCEPTION_RECORD ExceptionRecord, PCONTEXT Context
 	ULONG                           StackLimit = reinterpret_cast<ULONG>(KeGetPcr()->NtTib.StackLimit);
 	PEXCEPTION_REGISTRATION_RECORD  RegistrationPointer = KeGetPcr()->NtTib.ExceptionList;
 	PEXCEPTION_REGISTRATION_RECORD  NestedRegistration = nullptr;
-	EXCEPTION_REGISTRATION_RECORD** ppRegistrationFrame = nullptr;
+	EXCEPTION_REGISTRATION_RECORD **ppRegistrationFrame = nullptr;
 
 	while (RegistrationPointer != EXCEPTION_CHAIN_END) {
 		// We check that the RegistrationPointer is inside the limits of the current stack, and that it's not misaligned

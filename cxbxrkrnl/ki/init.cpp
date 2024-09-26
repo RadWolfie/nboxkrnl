@@ -133,7 +133,7 @@ void InitializeCrt()
 	PIMAGE_SECTION_HEADER crtSection = nullptr;
 	PIMAGE_SECTION_HEADER section = reinterpret_cast<PIMAGE_SECTION_HEADER>(pNtHeader + 1);
 	for (WORD i = 0; i < pNtHeader->FileHeader.NumberOfSections; i++) {
-		if (strcmp((char*)&section[i].Name, ".CRT") == 0) {
+		if (strcmp((char *)&section[i].Name, ".CRT") == 0) {
 			crtSection = &section[i];
 			break;
 		}
@@ -144,7 +144,7 @@ void InitializeCrt()
 	}
 
 	using CrtFunc = void (*)();
-	CrtFunc* initializer = reinterpret_cast<CrtFunc*>(KERNEL_BASE + crtSection->VirtualAddress);
+	CrtFunc             *initializer = reinterpret_cast<CrtFunc *>(KERNEL_BASE + crtSection->VirtualAddress);
 	while (*initializer) {
 		(*initializer)();
 		++initializer;

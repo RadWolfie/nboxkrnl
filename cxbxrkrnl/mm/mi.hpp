@@ -19,7 +19,7 @@ struct FreeBlock {
 	PFN_COUNT  size;  // number of pages in the block
 	LIST_ENTRY ListEntry;
 };
-using PFreeBlock = FreeBlock*;
+using PFreeBlock = FreeBlock *;
 
 
 inline bool MiLayoutRetail;

@@ -32,7 +32,7 @@ struct KTRAP_FRAME {
 	ULONG                          EFlags;
 };
 #pragma pack()
-using PKTRAP_FRAME = KTRAP_FRAME*;
+using PKTRAP_FRAME = KTRAP_FRAME *;
 
 
 VOID XBOXAPI KiTrap0();

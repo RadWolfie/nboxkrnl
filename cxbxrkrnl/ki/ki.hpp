@@ -8,7 +8,7 @@
 #include "..\ke\ke.hpp"
 #include "..\kernel.hpp"
 
-#define EXCEPTION_CHAIN_END reinterpret_cast<EXCEPTION_REGISTRATION_RECORD*>(0xFFFFFFFF)
+#define EXCEPTION_CHAIN_END reinterpret_cast<EXCEPTION_REGISTRATION_RECORD *>(0xFFFFFFFF)
 
 // cr0 flags
 #define CR0_TS (1 << 3) // task switched
@@ -48,7 +48,7 @@ struct alignas(16) FX_SAVE_AREA {
 	FLOATING_SAVE_AREA FloatSave;
 	ULONG              Align16Byte[3];
 };
-using PFX_SAVE_AREA = FX_SAVE_AREA*;
+using PFX_SAVE_AREA = FX_SAVE_AREA *;
 
 // Sanity check: this struct is used to save the npx state with the fxsave instruction, and the Intel docs require that the buffer
 // must be 16-bytes aligned
@@ -76,13 +76,13 @@ struct CONTEXT {
 	DWORD              Esp;
 	DWORD              SegSs;
 };
-using PCONTEXT = CONTEXT*;
+using PCONTEXT = CONTEXT *;
 
 struct KPRCB {
-	struct KTHREAD* CurrentThread;
-	struct KTHREAD* NextThread;
-	struct KTHREAD* IdleThread;
-	struct KTHREAD* NpxThread;
+	struct KTHREAD *CurrentThread;
+	struct KTHREAD *NextThread;
+	struct KTHREAD *IdleThread;
+	struct KTHREAD *NpxThread;
 	ULONG           InterruptCount;
 	ULONG           DpcTime;
 	ULONG           InterruptTime;
@@ -94,13 +94,13 @@ struct KPRCB {
 	PVOID           DpcStack;
 	ULONG           QuantumEnd;
 	FX_SAVE_AREA    NpxSaveArea;
-	VOID*           DmEnetFunc;
-	VOID*           DebugMonitorData;
+	VOID           *DmEnetFunc;
+	VOID           *DebugMonitorData;
 };
-using PKPRCB = KPRCB*;
+using PKPRCB = KPRCB *;
 
 struct NT_TIB {
-	struct EXCEPTION_REGISTRATION_RECORD* ExceptionList;
+	struct EXCEPTION_REGISTRATION_RECORD *ExceptionList;
 	PVOID                                 StackBase;
 	PVOID                                 StackLimit;
 	PVOID                                 SubSystemTib;
@@ -109,24 +109,24 @@ struct NT_TIB {
 		DWORD Version;
 	};
 	PVOID   ArbitraryUserPointer;
-	NT_TIB* Self;
+	NT_TIB *Self;
 };
-using PNT_TIB = NT_TIB*;
+using PNT_TIB = NT_TIB *;
 
 struct KPCR {
 	NT_TIB NtTib;
-	KPCR*  SelfPcr;
-	KPRCB* Prcb;
+	KPCR  *SelfPcr;
+	KPRCB *Prcb;
 	KIRQL  Irql;
 	KPRCB  PrcbData;
 };
-using PKPCR = KPCR*;
+using PKPCR = KPCR *;
 
 struct KTIMER_TABLE_ENTRY {
 	LIST_ENTRY     Entry;
 	ULARGE_INTEGER Time;
 };
-using PKTIMER_TABLE_ENTRY = KTIMER_TABLE_ENTRY*;
+using PKTIMER_TABLE_ENTRY = KTIMER_TABLE_ENTRY *;
 
 
 inline KTHREAD KiIdleThread;

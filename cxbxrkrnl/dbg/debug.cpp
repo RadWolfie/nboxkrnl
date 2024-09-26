@@ -11,7 +11,7 @@
 
 EXPORTNUM(8)
 ULONG CDECL DbgPrint(
-	const CHAR* Format,
+	const CHAR *Format,
 	...)
 {
 	if (Format != nullptr) {

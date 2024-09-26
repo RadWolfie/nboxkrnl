@@ -12,7 +12,7 @@ extern "C" {
 
 EXPORTNUM(8)
 DLLEXPORT ULONG CDECL DbgPrint(
-	const CHAR* Format,
+	const CHAR *Format,
 	...);
 
 #ifdef __cplusplus

@@ -7,8 +7,8 @@
 
 #include "..\types.hpp"
 
-#define KiB(x) ((x)*1024)      // = 0x00000400
-#define MiB(x) ((x)*KiB(1024)) // = 0x00100000
+#define KiB(x) ((x) * 1024)      // = 0x00000400
+#define MiB(x) ((x) * KiB(1024)) // = 0x00100000
 
 #define PAGE_SHIFT       12                // 2^12 = 4 KiB
 #define PAGE_SIZE        (1 << PAGE_SHIFT) // = 0x00001000 = KiB(4)
@@ -106,7 +106,7 @@
 
 
 using MMPTE = ULONG;
-using PMMPTE = MMPTE*;
+using PMMPTE = MMPTE *;
 
 inline ULONG MmSystemMaxMemory = XBOX_MEMORY_SIZE;
 

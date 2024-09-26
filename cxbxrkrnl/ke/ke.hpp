@@ -82,23 +82,23 @@ enum KTHREAD_STATE {
 
 struct KAPC_STATE {
 	LIST_ENTRY       ApcListHead[MaximumMode];
-	struct KPROCESS* Process;
+	struct KPROCESS *Process;
 	BOOLEAN          KernelApcInProgress;
 	BOOLEAN          KernelApcPending;
 	BOOLEAN          UserApcPending;
 	BOOLEAN          ApcQueueable;
 };
-using PKAPC_STATE = KAPC_STATE*;
+using PKAPC_STATE = KAPC_STATE *;
 
 struct KWAIT_BLOCK {
 	LIST_ENTRY          WaitListEntry;
-	struct KTHREAD*     Thread;
+	struct KTHREAD     *Thread;
 	PVOID               Object;
-	struct KWAIT_BLOCK* NextWaitBlock;
+	struct KWAIT_BLOCK *NextWaitBlock;
 	USHORT              WaitKey;
 	USHORT              WaitType;
 };
-using PKWAIT_BLOCK = KWAIT_BLOCK*;
+using PKWAIT_BLOCK = KWAIT_BLOCK *;
 
 struct KQUEUE {
 	DISPATCHER_HEADER Header;
@@ -107,44 +107,44 @@ struct KQUEUE {
 	ULONG             MaximumCount;
 	LIST_ENTRY        ThreadListHead;
 };
-using PKQUEUE = KQUEUE*;
+using PKQUEUE = KQUEUE *;
 
 struct KTIMER {
 	DISPATCHER_HEADER Header;
 	ULARGE_INTEGER    DueTime;
 	LIST_ENTRY        TimerListEntry;
-	struct KDPC*      Dpc;
+	struct KDPC      *Dpc;
 	LONG              Period;
 };
-using PKTIMER = KTIMER*;
+using PKTIMER = KTIMER *;
 
-using PKNORMAL_ROUTINE = VOID(XBOXAPI*)(
+using PKNORMAL_ROUTINE = VOID(XBOXAPI *)(
 	PVOID NormalContext,
 	PVOID SystemArgument1,
 	PVOID SystemArgument2);
 
-using PKKERNEL_ROUTINE = VOID(XBOXAPI*)(
-	struct KAPC*      Apc,
-	PKNORMAL_ROUTINE* NormalRoutine,
-	PVOID*            NormalContext,
-	PVOID*            SystemArgument1,
-	PVOID*            SystemArgument2);
+using PKKERNEL_ROUTINE = VOID(XBOXAPI *)(
+	struct KAPC      *Apc,
+	PKNORMAL_ROUTINE *NormalRoutine,
+	PVOID            *NormalContext,
+	PVOID            *SystemArgument1,
+	PVOID            *SystemArgument2);
 
-using PKRUNDOWN_ROUTINE = VOID(XBOXAPI*)(
-	struct KAPC* Apc);
+using PKRUNDOWN_ROUTINE = VOID(XBOXAPI *)(
+	struct KAPC *Apc);
 
-using PKSTART_ROUTINE = VOID(XBOXAPI*)(
-	VOID* StartContext);
+using PKSTART_ROUTINE = VOID(XBOXAPI *)(
+	VOID *StartContext);
 
-using PKSYSTEM_ROUTINE = VOID(XBOXAPI*)(
+using PKSYSTEM_ROUTINE = VOID(XBOXAPI *)(
 	PKSTART_ROUTINE StartRoutine,
-	VOID*           StartContext);
+	VOID           *StartContext);
 
 struct KAPC {
 	CSHORT            Type;
 	CSHORT            Size;
 	ULONG             Reserved;
-	struct KTHREAD*   Thread;
+	struct KTHREAD   *Thread;
 	LIST_ENTRY        ApcListEntry;
 	PKKERNEL_ROUTINE  KernelRoutine;
 	PKRUNDOWN_ROUTINE RundownRoutine;
@@ -156,27 +156,27 @@ struct KAPC {
 	KPROCESSOR_MODE   ApcMode;
 	BOOLEAN           Inserted;
 };
-using PKAPC = KAPC*;
+using PKAPC = KAPC *;
 
 struct KSEMAPHORE {
 	DISPATCHER_HEADER Header;
 	LONG              Limit;
 };
-using PKSEMAPHORE = KSEMAPHORE*;
+using PKSEMAPHORE = KSEMAPHORE *;
 
 struct KSTART_FRAME {
 	PKSYSTEM_ROUTINE SystemRoutine;
 	PKSTART_ROUTINE  StartRoutine;
 	PVOID            StartContext;
 };
-using PKSTART_FRAME = KSTART_FRAME*;
+using PKSTART_FRAME = KSTART_FRAME *;
 
 struct KSWITCHFRAME {
 	PVOID ExceptionList;
 	DWORD Eflags;
 	PVOID RetAddr;
 };
-using PKSWITCHFRAME = KSWITCHFRAME*;
+using PKSWITCHFRAME = KSWITCHFRAME *;
 
 struct KTHREAD {
 	DISPATCHER_HEADER Header;
@@ -221,7 +221,7 @@ struct KTHREAD {
 	KSEMAPHORE        SuspendSemaphore;
 	LIST_ENTRY        ThreadListEntry;
 };
-using PKTHREAD = KTHREAD*;
+using PKTHREAD = KTHREAD *;
 
 struct KPROCESS {
 	LIST_ENTRY ReadyListHead;
@@ -232,10 +232,10 @@ struct KPROCESS {
 	BOOLEAN    DisableBoost;
 	BOOLEAN    DisableQuantum;
 };
-using PKPROCESS = KPROCESS*;
+using PKPROCESS = KPROCESS *;
 
-using PKDEFERRED_ROUTINE = VOID(XBOXAPI*)(
-	struct KDPC* Dpc,
+using PKDEFERRED_ROUTINE = VOID(XBOXAPI *)(
+	struct KDPC *Dpc,
 	PVOID        DeferredContext,
 	PVOID        SystemArgument1,
 	PVOID        SystemArgument2);
@@ -251,7 +251,7 @@ struct KDPC {
 	PVOID              SystemArgument2;
 	PULONG_PTR         Lock;
 };
-using PKDPC = KDPC*;
+using PKDPC = KDPC *;
 
 
 #ifdef __cplusplus
@@ -319,7 +319,7 @@ DLLEXPORT extern XBOX_KEY_DATA XboxEEPROMKey;
 
 extern XBOX_KEY_DATA XboxCERTKey;
 
-VOID XBOXAPI KiSuspendNop(PKAPC Apc, PKNORMAL_ROUTINE* NormalRoutine, PVOID* NormalContext, PVOID* SystemArgument1, PVOID* SystemArgument2);
+VOID XBOXAPI KiSuspendNop(PKAPC Apc, PKNORMAL_ROUTINE *NormalRoutine, PVOID *NormalContext, PVOID *SystemArgument1, PVOID *SystemArgument2);
 VOID XBOXAPI KiSuspendThread(PVOID NormalContext, PVOID SystemArgument1, PVOID SystemArgument);
 VOID         KeInitializeThread(PKTHREAD Thread, PVOID KernelStack, ULONG KernelStackSize, ULONG TlsDataSize, PKSYSTEM_ROUTINE SystemRoutine, PKSTART_ROUTINE StartRoutine, PVOID StartContext, PKPROCESS Process);
 

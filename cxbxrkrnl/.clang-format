@@ -14,7 +14,7 @@ Cpp11BracedListStyle: 'false'
 IndentCaseLabels: 'true'
 IndentWidth: '4'
 MaxEmptyLinesToKeep: '2'
-PointerAlignment: Left
+PointerAlignment: Right
 SortIncludes: 'false'
 TabWidth: '4'
 UseTab: AlignWithSpaces

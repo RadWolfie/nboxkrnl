@@ -13,10 +13,10 @@
 #define EXCEPTION_CONTINUE_EXECUTION (-1)
 
 
-EXCEPTION_DISPOSITION CDECL _nested_unwind_handler(EXCEPTION_RECORD*               pExceptionRecord,
-                                                   EXCEPTION_REGISTRATION_SEH*     pRegistrationFrame,
-                                                   CONTEXT*                        pContextRecord,
-                                                   EXCEPTION_REGISTRATION_RECORD** pDispatcherContext)
+EXCEPTION_DISPOSITION CDECL _nested_unwind_handler(EXCEPTION_RECORD               *pExceptionRecord,
+                                                   EXCEPTION_REGISTRATION_SEH     *pRegistrationFrame,
+                                                   CONTEXT                        *pContextRecord,
+                                                   EXCEPTION_REGISTRATION_RECORD **pDispatcherContext)
 {
 	if (!(pExceptionRecord->ExceptionFlags & (EXCEPTION_UNWINDING | EXCEPTION_EXIT_UNWIND))) {
 		return ExceptionContinueSearch;
@@ -26,7 +26,7 @@ EXCEPTION_DISPOSITION CDECL _nested_unwind_handler(EXCEPTION_RECORD*            
 	return ExceptionCollidedUnwind;
 }
 
-static inline void FASTCALL call_ebp_func(void* func, void* _ebp)
+static inline void FASTCALL call_ebp_func(void *func, void *_ebp)
 {
 	__asm {
 		push ebp;
@@ -36,15 +36,15 @@ static inline void FASTCALL call_ebp_func(void* func, void* _ebp)
 	}
 }
 
-void _local_unwind2(EXCEPTION_REGISTRATION_SEH* pRegistrationFrame, int stop)
+void _local_unwind2(EXCEPTION_REGISTRATION_SEH *pRegistrationFrame, int stop)
 {
 	// Manually install exception handler frame
 	EXCEPTION_REGISTRATION_RECORD nestedUnwindFrame;
 	nestedUnwindFrame.Prev = KeGetPcr()->NtTib.ExceptionList;
-	nestedUnwindFrame.Handler = reinterpret_cast<void*>(_nested_unwind_handler);
+	nestedUnwindFrame.Handler = reinterpret_cast<void *>(_nested_unwind_handler);
 	KeGetPcr()->NtTib.ExceptionList = &nestedUnwindFrame;
 
-	const ScopeTableEntry* scopeTable = pRegistrationFrame->ScopeTable;
+	const ScopeTableEntry *scopeTable = pRegistrationFrame->ScopeTable;
 
 	while (true) {
 		LONG currentTrylevel = pRegistrationFrame->TryLevel;
@@ -71,15 +71,15 @@ void _local_unwind2(EXCEPTION_REGISTRATION_SEH* pRegistrationFrame, int stop)
 	KeGetPcr()->NtTib.ExceptionList = KeGetPcr()->NtTib.ExceptionList->Prev;
 }
 
-void _global_unwind2(EXCEPTION_REGISTRATION_SEH* pRegistrationFrame)
+void _global_unwind2(EXCEPTION_REGISTRATION_SEH *pRegistrationFrame)
 {
 	// TODO
 }
 
-EXCEPTION_DISPOSITION CDECL _except_handler3(EXCEPTION_RECORD*               pExceptionRecord,
-                                             EXCEPTION_REGISTRATION_SEH*     pRegistrationFrame,
-                                             CONTEXT*                        pContextRecord,
-                                             EXCEPTION_REGISTRATION_RECORD** pDispatcherContext)
+EXCEPTION_DISPOSITION CDECL _except_handler3(EXCEPTION_RECORD               *pExceptionRecord,
+                                             EXCEPTION_REGISTRATION_SEH     *pRegistrationFrame,
+                                             CONTEXT                        *pContextRecord,
+                                             EXCEPTION_REGISTRATION_RECORD **pDispatcherContext)
 {
 	// Clear the direction flag - the function triggering the exception might
 	// have modified it, but it's expected to not be set
@@ -99,14 +99,14 @@ EXCEPTION_DISPOSITION CDECL _except_handler3(EXCEPTION_RECORD*               pEx
 	EXCEPTION_POINTERS excptPtrs;
 	excptPtrs.ExceptionRecord = pExceptionRecord;
 	excptPtrs.ContextRecord = pContextRecord;
-	reinterpret_cast<volatile PEXCEPTION_POINTERS*>(pRegistrationFrame)[-1] = &excptPtrs;
+	reinterpret_cast<volatile PEXCEPTION_POINTERS *>(pRegistrationFrame)[-1] = &excptPtrs;
 
-	const ScopeTableEntry* scopeTable = pRegistrationFrame->ScopeTable;
+	const ScopeTableEntry *scopeTable = pRegistrationFrame->ScopeTable;
 	LONG                   currentTrylevel = pRegistrationFrame->TryLevel;
 
 	// Search all scopes from the inside out trying to find a filter that accepts the exception
 	while (currentTrylevel != TRYLEVEL_NONE) {
-		const void* filterFunclet = scopeTable[currentTrylevel].FilterFunction;
+		const void *filterFunclet = scopeTable[currentTrylevel].FilterFunction;
 		if (filterFunclet) {
 			const DWORD _ebp = (DWORD)&pRegistrationFrame->_ebp;
 			LONG        filterResult;
