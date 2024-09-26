@@ -8,15 +8,15 @@
 
 #define TRYLEVEL_NONE -1
 
-#define EXCEPTION_EXECUTE_HANDLER    1
-#define EXCEPTION_CONTINUE_SEARCH    0
+#define EXCEPTION_EXECUTE_HANDLER 1
+#define EXCEPTION_CONTINUE_SEARCH 0
 #define EXCEPTION_CONTINUE_EXECUTION (-1)
 
 
-EXCEPTION_DISPOSITION CDECL _nested_unwind_handler(EXCEPTION_RECORD               *pExceptionRecord,
-                                                   EXCEPTION_REGISTRATION_SEH     *pRegistrationFrame,
-                                                   CONTEXT                        *pContextRecord,
-                                                   EXCEPTION_REGISTRATION_RECORD **pDispatcherContext)
+EXCEPTION_DISPOSITION CDECL _nested_unwind_handler(EXCEPTION_RECORD *pExceptionRecord,
+	EXCEPTION_REGISTRATION_SEH *pRegistrationFrame,
+	CONTEXT *pContextRecord,
+	EXCEPTION_REGISTRATION_RECORD **pDispatcherContext)
 {
 	if (!(pExceptionRecord->ExceptionFlags & (EXCEPTION_UNWINDING | EXCEPTION_EXIT_UNWIND))) {
 		return ExceptionContinueSearch;
@@ -76,10 +76,10 @@ void _global_unwind2(EXCEPTION_REGISTRATION_SEH *pRegistrationFrame)
 	// TODO
 }
 
-EXCEPTION_DISPOSITION CDECL _except_handler3(EXCEPTION_RECORD               *pExceptionRecord,
-                                             EXCEPTION_REGISTRATION_SEH     *pRegistrationFrame,
-                                             CONTEXT                        *pContextRecord,
-                                             EXCEPTION_REGISTRATION_RECORD **pDispatcherContext)
+EXCEPTION_DISPOSITION CDECL _except_handler3(EXCEPTION_RECORD *pExceptionRecord,
+	EXCEPTION_REGISTRATION_SEH *pRegistrationFrame,
+	CONTEXT *pContextRecord,
+	EXCEPTION_REGISTRATION_RECORD **pDispatcherContext)
 {
 	// Clear the direction flag - the function triggering the exception might
 	// have modified it, but it's expected to not be set
@@ -102,14 +102,14 @@ EXCEPTION_DISPOSITION CDECL _except_handler3(EXCEPTION_RECORD               *pEx
 	reinterpret_cast<volatile PEXCEPTION_POINTERS *>(pRegistrationFrame)[-1] = &excptPtrs;
 
 	const ScopeTableEntry *scopeTable = pRegistrationFrame->ScopeTable;
-	LONG                   currentTrylevel = pRegistrationFrame->TryLevel;
+	LONG currentTrylevel = pRegistrationFrame->TryLevel;
 
 	// Search all scopes from the inside out trying to find a filter that accepts the exception
 	while (currentTrylevel != TRYLEVEL_NONE) {
 		const void *filterFunclet = scopeTable[currentTrylevel].FilterFunction;
 		if (filterFunclet) {
 			const DWORD _ebp = (DWORD)&pRegistrationFrame->_ebp;
-			LONG        filterResult;
+			LONG filterResult;
 
 			__asm {
 				push ebp;

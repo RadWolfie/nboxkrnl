@@ -8,9 +8,9 @@
 
 EXPORTNUM(107)
 VOID XBOXAPI KeInitializeDpc(
-	PKDPC              Dpc,
+	PKDPC Dpc,
 	PKDEFERRED_ROUTINE DeferredRoutine,
-	PVOID              DeferredContext)
+	PVOID DeferredContext)
 {
 	Dpc->Type = DpcObject;
 	Dpc->Inserted = FALSE;

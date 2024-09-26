@@ -7,14 +7,14 @@
 #include "..\types.hpp"
 #include "ki.hpp"
 
-#define EXCEPTION_NONCONTINUABLE     0x01
-#define EXCEPTION_UNWINDING          0x02
-#define EXCEPTION_EXIT_UNWIND        0x04
-#define EXCEPTION_STACK_INVALID      0x08
-#define EXCEPTION_NESTED_CALL        0x10
-#define EXCEPTION_TARGET_UNWIND      0x20
-#define EXCEPTION_COLLIDED_UNWIND    0x40
-#define EXCEPTION_UNWIND             (EXCEPTION_UNWINDING | EXCEPTION_EXIT_UNWIND | EXCEPTION_TARGET_UNWIND | EXCEPTION_COLLIDED_UNWIND)
+#define EXCEPTION_NONCONTINUABLE 0x01
+#define EXCEPTION_UNWINDING 0x02
+#define EXCEPTION_EXIT_UNWIND 0x04
+#define EXCEPTION_STACK_INVALID 0x08
+#define EXCEPTION_NESTED_CALL 0x10
+#define EXCEPTION_TARGET_UNWIND 0x20
+#define EXCEPTION_COLLIDED_UNWIND 0x40
+#define EXCEPTION_UNWIND (EXCEPTION_UNWINDING | EXCEPTION_EXIT_UNWIND | EXCEPTION_TARGET_UNWIND | EXCEPTION_COLLIDED_UNWIND)
 #define EXCEPTION_MAXIMUM_PARAMETERS 15
 
 enum EXCEPTION_DISPOSITION {
@@ -26,17 +26,17 @@ enum EXCEPTION_DISPOSITION {
 
 struct EXCEPTION_REGISTRATION_RECORD {
 	struct EXCEPTION_REGISTRATION_RECORD *Prev;
-	PVOID                                 Handler;
+	PVOID Handler;
 };
 using PEXCEPTION_REGISTRATION_RECORD = EXCEPTION_REGISTRATION_RECORD *;
 
 struct EXCEPTION_RECORD {
-	NTSTATUS                 ExceptionCode;
-	ULONG                    ExceptionFlags;
+	NTSTATUS ExceptionCode;
+	ULONG ExceptionFlags;
 	struct EXCEPTION_RECORD *ExceptionRecord;
-	PVOID                    ExceptionAddress;
-	ULONG                    NumberParameters;
-	ULONG_PTR                ExceptionInformation[EXCEPTION_MAXIMUM_PARAMETERS];
+	PVOID ExceptionAddress;
+	ULONG NumberParameters;
+	ULONG_PTR ExceptionInformation[EXCEPTION_MAXIMUM_PARAMETERS];
 };
 using PEXCEPTION_RECORD = EXCEPTION_RECORD *;
 
@@ -48,13 +48,13 @@ struct ScopeTableEntry {
 
 struct EXCEPTION_REGISTRATION_SEH : EXCEPTION_REGISTRATION_RECORD {
 	ScopeTableEntry *ScopeTable;
-	DWORD            TryLevel;
-	DWORD            _ebp;
+	DWORD TryLevel;
+	DWORD _ebp;
 };
 
 struct EXCEPTION_POINTERS {
 	PEXCEPTION_RECORD ExceptionRecord;
-	PCONTEXT          ContextRecord;
+	PCONTEXT ContextRecord;
 };
 using PEXCEPTION_POINTERS = EXCEPTION_POINTERS *;
 
@@ -68,11 +68,11 @@ VOID __SEH_epilog();
 // NOTE2: StackUsedByArgs is the size, in bytes, of the stack used by the arguments of the function. This is used for stdcall and fastcall functions, since they must release
 // that number of bytes before returning. On the contrary, cdecl functions don't release them (the caller does), and so StackUsedByArgs must be zero instead
 
-#define SEH_Create(SEHTable)        \
-	__asm push        __LOCAL_SIZE; \
-	__asm push offset SEHTable;     \
+#define SEH_Create(SEHTable)    \
+	__asm push __LOCAL_SIZE;    \
+	__asm push offset SEHTable; \
 	__asm call offset __SEH_prolog;
 
 #define SEH_Destroy(StackUsedByArgs) \
 	__asm call offset __SEH_epilog;  \
-	__asm ret         StackUsedByArgs;
+	__asm ret StackUsedByArgs;

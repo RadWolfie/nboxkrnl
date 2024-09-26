@@ -8,12 +8,12 @@
 #include <stddef.h>
 #include "ke\bug_codes.hpp"
 
-#define TRUE  1
+#define TRUE 1
 #define FALSE 0
 
-#define XBOXAPI  __stdcall
+#define XBOXAPI __stdcall
 #define FASTCALL __fastcall
-#define CDECL    __cdecl
+#define CDECL __cdecl
 
 #define EXPORTNUM(n)
 #define DLLEXPORT __declspec(dllexport)
@@ -65,18 +65,18 @@ union SLIST_HEADER {
 	ULONGLONG Alignment;
 	struct {
 		SINGLE_LIST_ENTRY Next;
-		USHORT            Depth;
-		USHORT            Sequence;
+		USHORT Depth;
+		USHORT Sequence;
 	};
 };
 using PSLIST_HEADER = SLIST_HEADER *;
 
 struct DISPATCHER_HEADER {
-	UCHAR      Type;
-	UCHAR      Absolute;
-	UCHAR      Size;
-	UCHAR      Inserted;
-	LONG       SignalState;
+	UCHAR Type;
+	UCHAR Absolute;
+	UCHAR Size;
+	UCHAR Inserted;
+	LONG SignalState;
 	LIST_ENTRY WaitListHead;
 };
 
@@ -96,7 +96,7 @@ union ULARGE_INTEGER {
 using PULARGE_INTEGER = ULARGE_INTEGER *;
 
 #define IMAGE_NUMBEROF_DIRECTORY_ENTRIES 16
-#define IMAGE_SIZEOF_SHORT_NAME          8
+#define IMAGE_SIZEOF_SHORT_NAME 8
 
 struct IMAGE_DOS_HEADER {
 	WORD e_magic;
@@ -122,13 +122,13 @@ struct IMAGE_DOS_HEADER {
 using PIMAGE_DOS_HEADER = IMAGE_DOS_HEADER *;
 
 struct IMAGE_FILE_HEADER {
-	WORD  Machine;
-	WORD  NumberOfSections;
+	WORD Machine;
+	WORD NumberOfSections;
 	DWORD TimeDateStamp;
 	DWORD PointerToSymbolTable;
 	DWORD NumberOfSymbols;
-	WORD  SizeOfOptionalHeader;
-	WORD  Characteristics;
+	WORD SizeOfOptionalHeader;
+	WORD Characteristics;
 };
 using PIMAGE_FILE_HEADER = IMAGE_FILE_HEADER *;
 
@@ -139,43 +139,43 @@ struct IMAGE_DATA_DIRECTORY {
 using PIMAGE_DATA_DIRECTORY = IMAGE_DATA_DIRECTORY *;
 
 struct IMAGE_OPTIONAL_HEADER32 {
-	WORD                 Magic;
-	BYTE                 MajorLinkerVersion;
-	BYTE                 MinorLinkerVersion;
-	DWORD                SizeOfCode;
-	DWORD                SizeOfInitializedData;
-	DWORD                SizeOfUninitializedData;
-	DWORD                AddressOfEntryPoint;
-	DWORD                BaseOfCode;
-	DWORD                BaseOfData;
-	DWORD                ImageBase;
-	DWORD                SectionAlignment;
-	DWORD                FileAlignment;
-	WORD                 MajorOperatingSystemVersion;
-	WORD                 MinorOperatingSystemVersion;
-	WORD                 MajorImageVersion;
-	WORD                 MinorImageVersion;
-	WORD                 MajorSubsystemVersion;
-	WORD                 MinorSubsystemVersion;
-	DWORD                Win32VersionValue;
-	DWORD                SizeOfImage;
-	DWORD                SizeOfHeaders;
-	DWORD                CheckSum;
-	WORD                 Subsystem;
-	WORD                 DllCharacteristics;
-	DWORD                SizeOfStackReserve;
-	DWORD                SizeOfStackCommit;
-	DWORD                SizeOfHeapReserve;
-	DWORD                SizeOfHeapCommit;
-	DWORD                LoaderFlags;
-	DWORD                NumberOfRvaAndSizes;
+	WORD Magic;
+	BYTE MajorLinkerVersion;
+	BYTE MinorLinkerVersion;
+	DWORD SizeOfCode;
+	DWORD SizeOfInitializedData;
+	DWORD SizeOfUninitializedData;
+	DWORD AddressOfEntryPoint;
+	DWORD BaseOfCode;
+	DWORD BaseOfData;
+	DWORD ImageBase;
+	DWORD SectionAlignment;
+	DWORD FileAlignment;
+	WORD MajorOperatingSystemVersion;
+	WORD MinorOperatingSystemVersion;
+	WORD MajorImageVersion;
+	WORD MinorImageVersion;
+	WORD MajorSubsystemVersion;
+	WORD MinorSubsystemVersion;
+	DWORD Win32VersionValue;
+	DWORD SizeOfImage;
+	DWORD SizeOfHeaders;
+	DWORD CheckSum;
+	WORD Subsystem;
+	WORD DllCharacteristics;
+	DWORD SizeOfStackReserve;
+	DWORD SizeOfStackCommit;
+	DWORD SizeOfHeapReserve;
+	DWORD SizeOfHeapCommit;
+	DWORD LoaderFlags;
+	DWORD NumberOfRvaAndSizes;
 	IMAGE_DATA_DIRECTORY DataDirectory[IMAGE_NUMBEROF_DIRECTORY_ENTRIES];
 };
 using PIMAGE_OPTIONAL_HEADER32 = IMAGE_OPTIONAL_HEADER32 *;
 
 struct IMAGE_NT_HEADERS32 {
-	DWORD                   Signature;
-	IMAGE_FILE_HEADER       FileHeader;
+	DWORD Signature;
+	IMAGE_FILE_HEADER FileHeader;
 	IMAGE_OPTIONAL_HEADER32 OptionalHeader;
 };
 using PIMAGE_NT_HEADERS32 = IMAGE_NT_HEADERS32 *;
@@ -191,8 +191,8 @@ struct IMAGE_SECTION_HEADER {
 	DWORD PointerToRawData;
 	DWORD PointerToRelocations;
 	DWORD PointerToLinenumbers;
-	WORD  NumberOfRelocations;
-	WORD  NumberOfLinenumbers;
+	WORD NumberOfRelocations;
+	WORD NumberOfLinenumbers;
 	DWORD Characteristics;
 };
 using PIMAGE_SECTION_HEADER = IMAGE_SECTION_HEADER *;

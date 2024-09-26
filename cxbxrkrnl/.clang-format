@@ -1,22 +1,55 @@
 ---
-BasedOnStyle: LLVM
-AlignConsecutiveDeclarations: 'true'
-AlignConsecutiveMacros: 'true'
-AlignEscapedNewlines: Left
-AllowShortBlocksOnASingleLine: 'false'
+BasedOnStyle: 'Microsoft'
+AlignAfterOpenBracket: 'DontAlign'
+AlignConsecutiveDeclarations: 'None'
+AlignConsecutiveMacros:
+  Enabled: 'false'
+AlignEscapedNewlines: 'Left'
+AllowShortBlocksOnASingleLine: 'Empty'
 AllowShortCaseLabelsOnASingleLine: 'false'
-AllowShortFunctionsOnASingleLine: None
-AllowShortIfStatementsOnASingleLine: Never
-BinPackParameters: 'false'
-BreakBeforeBraces: Stroustrup
+AllowShortFunctionsOnASingleLine: 'Empty'
+AllowShortIfStatementsOnASingleLine: 'Never'
+BinPackArguments: 'true'
+BinPackParameters: 'true'
+BreakBeforeBraces: 'Custom'
+BraceWrapping:
+  AfterCaseLabel: 'false'
+  AfterClass: 'true'
+  AfterControlStatement: 'Never'
+  AfterEnum: 'false'
+  AfterFunction: 'true'
+  AfterNamespace: 'true'
+  AfterObjCDeclaration: 'true'
+  AfterStruct: 'false'
+  AfterUnion: 'false'
+  AfterExternBlock: 'false'
+  BeforeCatch: 'true'
+  BeforeElse: 'true'
+  BeforeLambdaBody: 'true'
+  BeforeWhile: 'false'
+  IndentBraces: 'false'
+  SplitEmptyFunction: 'false'
+  SplitEmptyRecord: 'false'
+  SplitEmptyNamespace: 'false'
 ColumnLimit: '0'
 Cpp11BracedListStyle: 'false'
-IndentCaseLabels: 'true'
+IndentCaseLabels: 'false'
 IndentWidth: '4'
 MaxEmptyLinesToKeep: '2'
-PointerAlignment: Right
-SortIncludes: 'false'
+PointerAlignment: 'Right'
+SortIncludes: 'Never'
+SpaceBeforeParens: 'Custom'
+SpaceBeforeParensOptions:
+  AfterControlStatements: 'true'
+  AfterForeachMacros: 'false'
+  AfterFunctionDeclarationName: 'false'
+  AfterFunctionDefinitionName: 'false'
+  AfterIfMacros: 'false'
+  AfterOverloadedOperator: 'false'
+  AfterRequiresInClause: 'true'
+  AfterRequiresInExpression: 'true'
+  BeforeNonEmptyParentheses: 'false'
 TabWidth: '4'
-UseTab: AlignWithSpaces
+UseTab: ForContinuationAndIndentation
 
 ...

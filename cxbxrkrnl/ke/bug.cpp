@@ -16,18 +16,18 @@ VOID XBOXAPI KeBugCheck(
 
 EXPORTNUM(96)
 VOID XBOXAPI KeBugCheckEx(
-	ULONG     BugCheckCode,
+	ULONG BugCheckCode,
 	ULONG_PTR BugCheckParameter1,
 	ULONG_PTR BugCheckParameter2,
 	ULONG_PTR BugCheckParameter3,
 	ULONG_PTR BugCheckParameter4)
 {
 	DbgPrint("Fatal error of the kernel with code: 0x%08lx\n(0x%p, 0x%p, 0x%p, 0x%p)\n\n",
-	         BugCheckCode,
-	         BugCheckParameter1,
-	         BugCheckParameter2,
-	         BugCheckParameter3,
-	         BugCheckParameter4);
+		BugCheckCode,
+		BugCheckParameter1,
+		BugCheckParameter2,
+		BugCheckParameter3,
+		BugCheckParameter4);
 
 	HalpShutdownSystem();
 }

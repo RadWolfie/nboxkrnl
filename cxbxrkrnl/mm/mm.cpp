@@ -40,9 +40,9 @@ VOID MmInitSystem()
 	}
 
 	// Calculate how large is the kernel image, so that we can keep its allocation and unmap all the other large pages we were booted with
-	PIMAGE_DOS_HEADER   dosHeader = reinterpret_cast<PIMAGE_DOS_HEADER>(KERNEL_BASE);
+	PIMAGE_DOS_HEADER dosHeader = reinterpret_cast<PIMAGE_DOS_HEADER>(KERNEL_BASE);
 	PIMAGE_NT_HEADERS32 pNtHeader = reinterpret_cast<PIMAGE_NT_HEADERS32>(KERNEL_BASE + dosHeader->e_lfanew);
-	DWORD               KernelSize = ROUND_UP_4K(pNtHeader->OptionalHeader.SizeOfImage);
+	DWORD KernelSize = ROUND_UP_4K(pNtHeader->OptionalHeader.SizeOfImage);
 
 	// Sanity check: make sure our kernel size is below 4 MiB. A real uncompressed kernel is approximately 1.2 MiB large
 	ULONG PdeNumber = PAGES_SPANNED_LARGE(KERNEL_BASE, KernelSize);
@@ -59,7 +59,7 @@ VOID MmInitSystem()
 	NextPageTableAddr += PAGE_SIZE;
 
 	// Map the kernel image
-	MMPTE  TempPte = ValidKernelPteBits | SetPfn(KERNEL_BASE);
+	MMPTE TempPte = ValidKernelPteBits | SetPfn(KERNEL_BASE);
 	PMMPTE pPde_end = GetPteAddress(KERNEL_BASE + KernelSize - 1);
 	for (PMMPTE pPde = GetPteAddress(KERNEL_BASE); pPde <= pPde_end; ++pPde) {
 		WritePte(pPde, TempPte);

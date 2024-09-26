@@ -9,8 +9,8 @@
 EXPORTNUM(51)
 LONG FASTCALL InterlockedCompareExchange(
 	volatile PLONG Destination,
-	LONG           Exchange,
-	LONG           Comparand)
+	LONG Exchange,
+	LONG Comparand)
 {
 	__asm {
 		mov eax, Comparand;
@@ -21,7 +21,7 @@ LONG FASTCALL InterlockedCompareExchange(
 EXPORTNUM(54)
 LONG FASTCALL InterlockedExchange(
 	volatile PLONG Destination,
-	LONG           Value)
+	LONG Value)
 {
 	__asm {
 		mov eax, Value;

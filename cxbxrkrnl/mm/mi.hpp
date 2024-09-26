@@ -15,8 +15,8 @@ using PFN_NUMBER = ULONG;
 
 // An entry of the list tracking the free pages on the system
 struct FreeBlock {
-	PFN        start; // starting page of the block
-	PFN_COUNT  size;  // number of pages in the block
+	PFN start;      // starting page of the block
+	PFN_COUNT size; // number of pages in the block
 	LIST_ENTRY ListEntry;
 };
 using PFreeBlock = FreeBlock *;

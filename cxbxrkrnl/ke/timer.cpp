@@ -17,7 +17,7 @@ VOID XBOXAPI KeInitializeTimer(PKTIMER Timer)
 
 EXPORTNUM(113)
 VOID XBOXAPI KeInitializeTimerEx(
-	PKTIMER    Timer,
+	PKTIMER Timer,
 	TIMER_TYPE Type)
 {
 	Timer->Header.Type = Type + TimerNotificationObject;

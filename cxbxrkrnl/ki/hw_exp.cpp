@@ -22,8 +22,8 @@
 	__asm push eax;                                    \
 	__asm push ecx;                                    \
 	__asm push edx;                                    \
-	__asm sub  esp, 24;                                \
-	__asm mov  ebp, esp;                               \
+	__asm sub esp, 24;                                 \
+	__asm mov ebp, esp;                                \
 	__asm cld;                                         \
 	__asm mov ebx, [ebp] KTRAP_FRAME.Ebp;              \
 	__asm mov edi, [ebp] KTRAP_FRAME.Eip;              \
@@ -51,25 +51,25 @@ constexpr auto EXCEPTION_RECORD_SIZE = sizeof(EXCEPTION_RECORD);
 	__asm mov[esp] EXCEPTION_RECORD.ExceptionInformation[0], 0; \
 	__asm mov[esp] EXCEPTION_RECORD.ExceptionInformation[1], 0;
 
-#define HANDLE_EXCEPTION        \
-	__asm mov         ecx, esp; \
-	__asm mov         edx, ebp; \
-	__asm push        TRUE;     \
+#define HANDLE_EXCEPTION \
+	__asm mov ecx, esp;  \
+	__asm mov edx, ebp;  \
+	__asm push TRUE;     \
 	__asm call offset KiDispatchException;
 
-#define EXIT_EXCEPTION                                        \
-	__asm mov           esp, ebp;                             \
-	__asm mov           edx, [ebp] KTRAP_FRAME.ExceptionList; \
-	__asm mov dword ptr fs : [0], edx;                        \
-	__asm mov           eax, [ebp] KTRAP_FRAME.Eax;           \
-	__asm mov           edx, [ebp] KTRAP_FRAME.Edx;           \
-	__asm mov           ecx, [ebp] KTRAP_FRAME.Ecx;           \
-	__asm lea           esp, [ebp] KTRAP_FRAME.Edi;           \
-	__asm pop           edi;                                  \
-	__asm pop           esi;                                  \
-	__asm pop           ebx;                                  \
-	__asm pop           ebp;                                  \
-	__asm add           esp, 4;                               \
+#define EXIT_EXCEPTION                              \
+	__asm mov esp, ebp;                             \
+	__asm mov edx, [ebp] KTRAP_FRAME.ExceptionList; \
+	__asm mov dword ptr fs : [0], edx;              \
+	__asm mov eax, [ebp] KTRAP_FRAME.Eax;           \
+	__asm mov edx, [ebp] KTRAP_FRAME.Edx;           \
+	__asm mov ecx, [ebp] KTRAP_FRAME.Ecx;           \
+	__asm lea esp, [ebp] KTRAP_FRAME.Edi;           \
+	__asm pop edi;                                  \
+	__asm pop esi;                                  \
+	__asm pop ebx;                                  \
+	__asm pop ebp;                                  \
+	__asm add esp, 4;                               \
 	__asm iretd;
 
 
@@ -302,5 +302,5 @@ VOID FASTCALL KiDispatchException(PEXCEPTION_RECORD ExceptionRecord, PKTRAP_FRAM
 	}
 
 	KeBugCheckEx(KERNEL_UNHANDLED_EXCEPTION, ExceptionRecord->ExceptionCode, reinterpret_cast<ULONG>(ExceptionRecord->ExceptionAddress),
-	             ExceptionRecord->ExceptionInformation[0], ExceptionRecord->ExceptionInformation[1]);
+		ExceptionRecord->ExceptionInformation[0], ExceptionRecord->ExceptionInformation[1]);
 }
